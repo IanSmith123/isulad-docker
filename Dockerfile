@@ -159,16 +159,19 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	set -x && \
 	cd ~ && \
-	git clone -b openEuler-20.03-LTS https://gitee.com/src-openeuler/grpc.git && \
-	cd grpc && \
+	#git clone -b openEuler-20.03-LTS https://gitee.com/src-openeuler/grpc.git && \
+	#cd grpc && \
 	#tar -xzvf grpc-1.22.0.tar.gz && \
 	#cd grpc-1.22.0 && \
 	# build abseil-cpp && \
-	tar -xzf abseil-cpp-b832dce8489ef7b6231384909fd9b68d5a5ff2b7.tar.gz  && \
-	cd abseil-cpp-b832dce8489ef7b6231384909fd9b68d5a5ff2b7 && \
-	mkdir build && \
-	cd build && \
-	cmake .. && \
+	#tar -xzf abseil-cpp-b832dce8489ef7b6231384909fd9b68d5a5ff2b7.tar.gz  && \
+	#cd abseil-cpp-b832dce8489ef7b6231384909fd9b68d5a5ff2b7 && \
+	git clone -b v1.28.1 https://github.com/grpc/grpc  && \
+	cd grpc  && \
+	git submodule update --init  && \
+	mkdir -p cmake/build && \
+	cd cmake/build && \
+	cmake ../.. && \
 	make -j $(nproc) && \
 	make install && \
 	cd .. &&\
