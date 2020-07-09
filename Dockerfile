@@ -189,7 +189,8 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	cd ~ && \
 	git clone https://gitee.com/src-openeuler/libevhtp.git && \
 	cd libevhtp && \
-	git checkout openEuler-20.03-LTS-tag && \
+	# 此处的4个patch中的指令是openEuler-20.03-LTS分支中，在openEuler-20.03-LTS-tag中是1.2.16   && \
+	git checkout openEuler-20.03-LTS && \
 	tar -xzvf libevhtp-1.2.18.tar.gz && \
 	cd libevhtp-1.2.18 && \
 	patch -p1 -F1 -s < ../0001-decrease-numbers-of-fd-for-shared-pipe-mode.patch && \
