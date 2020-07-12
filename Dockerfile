@@ -239,7 +239,7 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	cd ~ && \
 	git clone https://gitee.com/src-openeuler/lxc.git && \
 	cd lxc && \
-	openEuler-20.03-LTS-tag &&\
+	git checkout openEuler-20.03-LTS-tag &&\
 	./apply-patches && \
 	cd lxc-3.0.3 && \
 	./autogen.sh && \
