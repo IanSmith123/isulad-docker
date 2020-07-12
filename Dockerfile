@@ -268,7 +268,7 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	cd ~ && \
 	git clone https://gitee.com/openeuler/clibcni.git && \
 	cd clibcni && \
-	git checkout v2.0.2 && \
+	#git checkout v2.0.2 && \
 	mkdir build && \
 	cd build && \
 	cmake ../ && \
