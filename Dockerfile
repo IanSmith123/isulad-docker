@@ -239,8 +239,9 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	cd ~ && \
 	git clone https://gitee.com/src-openeuler/lxc.git && \
 	cd lxc && \
+	openEuler-20.03-LTS-tag &&\
 	./apply-patches && \
-	cd lxc-4.0.1 && \
+	cd lxc-3.0.3 && \
 	./autogen.sh && \
 	./configure && \
 	make -j $(nproc) && \
@@ -253,6 +254,7 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	cd ~ && \
 	git clone https://gitee.com/openeuler/lcr.git && \
 	cd lcr && \
+	git checkout v2.0.2 && \
 	mkdir build && \
 	cd build && \
 	cmake ../ && \
@@ -266,6 +268,7 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	cd ~ && \
 	git clone https://gitee.com/openeuler/clibcni.git && \
 	cd clibcni && \
+	git checkout v2.0.2 && \
 	mkdir build && \
 	cd build && \
 	cmake ../ && \
