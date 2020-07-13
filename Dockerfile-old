@@ -21,7 +21,7 @@
 #		-t YOUR_IMAGE_NAME -f ./Dockerfile .
 
 
-FROM	centos:7.6.1810 as builder
+FROM	centos:7.6.1810
 MAINTAINER LiFeng <lifeng68@huawei.com>
 
 RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
@@ -301,27 +301,6 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	make && \
 	make install && \
 	ldconfig
-
-RUN mkdir /tmp/build
-RUN cp `ldd /usr/local/bin/isula|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/build  --parents
-
-RUN cp `ldd /usr/bin/isulad-img|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/build --parents
-
-FROM	centos:7.6.1810
-
-# unionfs删除复制了一层之后再删除是无效的
-COPY --from=build /tmp/build /tmp/build
-RUN cp /tmp/build/ /
-
-COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
-COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
-
-COPY --from=build /etc/containers /etc/containers
-COPY --from=build /etc/isulad /etc/isulad
-COPY --from=build /etc/default/isulad/ /etc/default/isulad/
-COPY --from=build /etc/isulad /etc/isulad
-COPY --from=build /etc/sysmonitor/process/isulad-monit /etc/sysmonitor/process/isulad-monit
-COPY --from=build /etc/isulad /etc/isulad
 
 
 VOLUME [ "/sys/fs/cgroup" ]
