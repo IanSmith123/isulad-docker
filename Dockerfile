@@ -21,7 +21,7 @@
 #		-t YOUR_IMAGE_NAME -f ./Dockerfile .
 
 
-FROM	centos:7.6.1810 as builder
+FROM	centos:7.6.1810 as build
 MAINTAINER LiFeng <lifeng68@huawei.com>
 
 RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf && \
