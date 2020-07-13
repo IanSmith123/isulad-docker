@@ -254,7 +254,7 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	cd ~ && \
 	git clone https://gitee.com/openeuler/lcr.git && \
 	cd lcr && \
-	#git checkout v2.0.2 && \
+	git checkout aa88f1a8c5e4bc969b28a202a5940f72b0d4357d  && \
 	mkdir build && \
 	cd build && \
 	cmake ../ && \
