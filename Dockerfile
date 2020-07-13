@@ -311,7 +311,7 @@ FROM	centos:7.6.1810
 
 # unionfs删除复制了一层之后再删除是无效的
 COPY --from=build /tmp/build /tmp/build
-RUN cp /tmp/build/ /
+RUN /usr/bin/cp /tmp/build/ / -r
 
 COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
 COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
