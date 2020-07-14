@@ -302,16 +302,18 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	make install && \
 	ldconfig
 
-RUN mkdir /tmp/build
-RUN cp `ldd /usr/local/bin/isula|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/build  --parents
+RUN mkdir /tmp/isula /tmp/isuad-img
+RUN cp `ldd /usr/local/bin/isula|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isula  --parents
 
-RUN cp `ldd /usr/bin/isulad-img|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/build --parents
+RUN cp `ldd /usr/bin/isulad-img|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isulad-img --parents
 
 FROM	centos:7.6.1810
 
 # unionfs删除复制了一层之后再删除是无效的
-COPY --from=build /tmp/build /tmp/build
-RUN /usr/bin/cp /tmp/build/ / -r
+COPY --from=build /tmp/isula /tmp/isula
+COPY --from=build /tmp/isulad-img /tmp/isulad-img
+RUN /usr/bin/mv /tmp/isula / -rfp &&\
+    /usr/bin/mv /tmp/isulad-img / -rfp
 
 COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
 COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
