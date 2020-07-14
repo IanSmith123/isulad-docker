@@ -307,13 +307,19 @@ RUN cp `ldd /usr/local/bin/isula|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed 
 
 RUN cp `ldd /usr/bin/isulad-img|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isulad-img --parents
 
-FROM	centos:7.6.1810
+FROM    centos:7.6.1810
 
 # unionfs删除复制了一层之后再删除是无效的
 COPY --from=build /tmp/isula /tmp/isula
 COPY --from=build /tmp/isulad-img /tmp/isulad-img
-RUN /usr/bin/mv /tmp/isula / -f &&\
-    /usr/bin/mv /tmp/isulad-img / -f
+
+RUN /usr/bin/cp  /tmp/isula/lib64/* /lib64 -ru &&\
+         /usr/bin/cp  /tmp/isula/usr/local/lib/* /usr/local/lib -ru &&\
+    /usr/bin/cp /tmp/isulad-img/lib64/* /lib64 -ru &&\
+    rm -rf /tmp/isul* &&\
+    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
+    ldconfig
+
 
 COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
 COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
