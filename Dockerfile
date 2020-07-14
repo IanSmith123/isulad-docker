@@ -313,9 +313,9 @@ FROM    centos:7.6.1810
 COPY --from=build /tmp/isula /tmp/isula
 COPY --from=build /tmp/isulad-img /tmp/isulad-img
 
-RUN /usr/bin/cp  /tmp/isula/lib64/* /lib64 -ru &&\
-         /usr/bin/cp  /tmp/isula/usr/local/lib/* /usr/local/lib -ru &&\
-    /usr/bin/cp /tmp/isulad-img/lib64/* /lib64 -ru &&\
+RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
+    /usr/bin/cp -ru /tmp/isula/usr/local/lib/* /usr/local/lib  &&\
+    /usr/bin/cp -ru /tmp/isulad-img/lib64/* /lib64  &&\
     rm -rf /tmp/isul* &&\
     echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
     ldconfig
