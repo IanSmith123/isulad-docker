@@ -302,7 +302,7 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	make install && \
 	ldconfig
 
-RUN mkdir /tmp/isula /tmp/isuad-img
+RUN mkdir /tmp/isula /tmp/isulad-img
 RUN cp `ldd /usr/local/bin/isula|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isula  --parents
 
 RUN cp `ldd /usr/bin/isulad-img|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isulad-img --parents
