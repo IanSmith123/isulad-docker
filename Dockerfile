@@ -302,37 +302,34 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	make install && \
 	ldconfig
 
-RUN mkdir /tmp/isula /tmp/isulad-img
+RUN mkdir /tmp/isula /tmp/isulad /tmp/isulad-shim /tmp/isulad-img
 RUN cp `ldd /usr/local/bin/isula|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isula  --parents
-
+RUN cp `ldd /usr/local/bin/isulad|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isula  --parents
+RUN cp `ldd /usr/local/bin/isulad-shim|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isula  --parents
 RUN cp `ldd /usr/bin/isulad-img|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isulad-img --parents
+
+
+# todo isulad isulad-shim
 
 FROM    centos:7.6.1810
 
 # unionfs删除复制了一层之后再删除是无效的
-#COPY --from=build /tmp/isula /tmp/isula
-#COPY --from=build /tmp/isulad-img /tmp/isulad-img
+COPY --from=build /tmp/isula /tmp/isula
+COPY --from=build /tmp/isulad /tmp/isulad
+COPY --from=build /tmp/isulad-shim /tmp/isulad-shim
+COPY --from=build /tmp/isulad-img /tmp/isulad-img
 
-#RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
-#    /usr/bin/cp -ru /tmp/isula/usr/local/lib/* /usr/local/lib  &&\
-#    /usr/bin/cp -ru /tmp/isulad-img/lib64/* /lib64  &&\
-#    rm -rf /tmp/isul* &&\
+RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
+    /usr/bin/cp -ru /tmp/isula/usr/local/lib/* /usr/local/lib  &&\
+    /usr/bin/cp -ru /tmp/isulad-img/lib64/* /lib64  &&\
+    rm -rf /tmp/isul* &&\
 #    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
 #    ldconfig
 
-#COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
-#COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
-#
-#COPY --from=build /etc/containers /etc/containers
-#COPY --from=build /etc/isulad /etc/isulad
-#COPY --from=build /etc/default/isulad/ /etc/default/isulad/
-#COPY --from=build /etc/isulad /etc/isulad
-#COPY --from=build /etc/sysmonitor/process/isulad-monit /etc/sysmonitor/process/isulad-monit
-#COPY --from=build /etc/isulad /etc/isulad
-
 #isulad-img
 COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
-COPY --from=build /etc/containers/default-policy.json /etc/containers/policy.json
+# 找不到该文件
+#COPY --from=build /etc/containers/default-policy.json /etc/containers/policy.json
 
 # isula
 COPY --from=build /usr/local/lib/pkgconfig/isulad.pc /usr/local/lib/pkgconfig/isulad.pc
