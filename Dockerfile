@@ -310,27 +310,53 @@ RUN cp `ldd /usr/bin/isulad-img|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -
 FROM    centos:7.6.1810
 
 # unionfs删除复制了一层之后再删除是无效的
-COPY --from=build /tmp/isula /tmp/isula
-COPY --from=build /tmp/isulad-img /tmp/isulad-img
+#COPY --from=build /tmp/isula /tmp/isula
+#COPY --from=build /tmp/isulad-img /tmp/isulad-img
 
-RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
-    /usr/bin/cp -ru /tmp/isula/usr/local/lib/* /usr/local/lib  &&\
-    /usr/bin/cp -ru /tmp/isulad-img/lib64/* /lib64  &&\
-    rm -rf /tmp/isul* &&\
-    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
-    ldconfig
+#RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
+#    /usr/bin/cp -ru /tmp/isula/usr/local/lib/* /usr/local/lib  &&\
+#    /usr/bin/cp -ru /tmp/isulad-img/lib64/* /lib64  &&\
+#    rm -rf /tmp/isul* &&\
+#    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
+#    ldconfig
 
+#COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
+#COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
+#
+#COPY --from=build /etc/containers /etc/containers
+#COPY --from=build /etc/isulad /etc/isulad
+#COPY --from=build /etc/default/isulad/ /etc/default/isulad/
+#COPY --from=build /etc/isulad /etc/isulad
+#COPY --from=build /etc/sysmonitor/process/isulad-monit /etc/sysmonitor/process/isulad-monit
+#COPY --from=build /etc/isulad /etc/isulad
 
-COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
+#isulad-img
 COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
+COPY --from=build /etc/containers/default-policy.json /etc/containers/policy.json
 
-COPY --from=build /etc/containers /etc/containers
-COPY --from=build /etc/isulad /etc/isulad
-COPY --from=build /etc/default/isulad/ /etc/default/isulad/
-COPY --from=build /etc/isulad /etc/isulad
+# isula
+COPY --from=build /usr/local/lib/pkgconfig/isulad.pc /usr/local/lib/pkgconfig/isulad.pc
+COPY --from=build /usr/local/include/isulad/libisula.h /usr/local/include/isulad/libisula.h
+COPY --from=build /usr/local/include/isulad/isula_connect.h /usr/local/include/isulad/isula_connect.h
+COPY --from=build /usr/local/include/isulad/container_def.h /usr/local/include/isulad/container_def.h
+COPY --from=build /usr/local/include/isulad/types_def.h /usr/local/include/isulad/types_def.h
+COPY --from=build /usr/local/include/isulad/error.h /usr/local/include/isulad/error.h
+COPY --from=build /usr/local/include/isulad/engine.h /usr/local/include/isulad/engine.h
+COPY --from=build /etc/isulad/daemon.json /etc/isulad/daemon.json
+COPY --from=build /etc/default/isulad/config.json /etc/default/isulad/config.json
+COPY --from=build /etc/default/isulad/systemcontainer_config.json /etc/default/isulad/systemcontainer_config.json
+COPY --from=build /etc/isulad/seccomp_default.json /etc/isulad/seccomp_default.json
+COPY --from=build /etc/default/isulad/hooks/default.json /etc/default/isulad/hooks/default.json
+COPY --from=build /etc/default/isulad/isulad-check.sh /etc/default/isulad/isulad-check.sh
 COPY --from=build /etc/sysmonitor/process/isulad-monit /etc/sysmonitor/process/isulad-monit
-COPY --from=build /etc/isulad /etc/isulad
+COPY --from=build /usr/local/lib/libisula.so /usr/local/lib/libisula.so
+COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
+COPY --from=build /usr/local/bin/isulad-shim /usr/local/bin/isulad-shim
+COPY --from=build /usr/local/bin/isulad /usr/local/bin/isulad
+COPY --from=build /usr/local/lib/libhttpclient.so /usr/local/lib/libhttpclient.so
 
+RUN echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
+    ldconfig
 
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
