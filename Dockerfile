@@ -328,7 +328,7 @@ RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
     /usr/bin/cp -ru /tmp/isulad-shim/usr/local/lib/* /usr/local/lib  &&\
     rm -rf /tmp/isul* &&\
 #    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
-#    ldconfig
+    ldconfig
 
 #isulad-img
 COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
