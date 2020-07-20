@@ -322,7 +322,7 @@ COPY --from=build /tmp/isulad-img /tmp/isulad-img
 RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
     /usr/bin/cp -ru /tmp/isula/usr/local/lib/* /usr/local/lib  &&\
     /usr/bin/cp -ru /tmp/isulad-img/lib64/* /lib64  &&\
-    rm -rf /tmp/isul* &&\
+    #rm -rf /tmp/isul* &&\
     install -d -m 755 /etc/containers
 #    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
 #    ldconfig
@@ -330,7 +330,7 @@ RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
 #isulad-img
 COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
 # 找不到该文件
-COPY --from=build /etc/containers/default-policy.json /etc/containers/policy.json
+COPY --from=build /etc/containers/policy.json /etc/containers/policy.json
 
 # isula
 COPY --from=build /usr/local/lib/pkgconfig/isulad.pc /usr/local/lib/pkgconfig/isulad.pc
