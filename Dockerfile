@@ -304,8 +304,8 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 
 RUN mkdir /tmp/isula /tmp/isulad /tmp/isulad-shim /tmp/isulad-img
 RUN cp `ldd /usr/local/bin/isula|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isula  --parents
-RUN cp `ldd /usr/local/bin/isulad|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isula  --parents
-RUN cp `ldd /usr/local/bin/isulad-shim|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isula  --parents
+RUN cp `ldd /usr/local/bin/isulad|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isulad  --parents
+RUN cp `ldd /usr/local/bin/isulad-shim|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isulad-shim  --parents
 RUN cp `ldd /usr/bin/isulad-img|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isulad-img --parents
 
 
@@ -323,13 +323,14 @@ RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
     /usr/bin/cp -ru /tmp/isula/usr/local/lib/* /usr/local/lib  &&\
     /usr/bin/cp -ru /tmp/isulad-img/lib64/* /lib64  &&\
     rm -rf /tmp/isul* &&\
+    install -d -m 755 /etc/containers
 #    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
 #    ldconfig
 
 #isulad-img
 COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
 # 找不到该文件
-#COPY --from=build /etc/containers/default-policy.json /etc/containers/policy.json
+COPY --from=build /etc/containers/default-policy.json /etc/containers/policy.json
 
 # isula
 COPY --from=build /usr/local/lib/pkgconfig/isulad.pc /usr/local/lib/pkgconfig/isulad.pc
