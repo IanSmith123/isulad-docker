@@ -328,11 +328,10 @@ RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
     /usr/bin/cp -ru /tmp/isulad-shim/usr/local/lib/* /usr/local/lib  &&\
     rm -rf /tmp/isul* &&\
 #    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
-    ldconfig
+#    ldconfig
 
 #isulad-img
 COPY --from=build /usr/bin/isulad-img /usr/bin/isulad-img
-# 找不到该文件
 COPY --from=build /etc/containers/policy.json /etc/containers/policy.json
 
 # isula
@@ -350,11 +349,11 @@ COPY --from=build /etc/isulad/seccomp_default.json /etc/isulad/seccomp_default.j
 COPY --from=build /etc/default/isulad/hooks/default.json /etc/default/isulad/hooks/default.json
 COPY --from=build /etc/default/isulad/isulad-check.sh /etc/default/isulad/isulad-check.sh
 COPY --from=build /etc/sysmonitor/process/isulad-monit /etc/sysmonitor/process/isulad-monit
-COPY --from=build /usr/local/lib/libisula.so /usr/local/lib/libisula.so
+#COPY --from=build /usr/local/lib/libisula.so /usr/local/lib/libisula.so
 COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
 COPY --from=build /usr/local/bin/isulad-shim /usr/local/bin/isulad-shim
 COPY --from=build /usr/local/bin/isulad /usr/local/bin/isulad
-COPY --from=build /usr/local/lib/libhttpclient.so /usr/local/lib/libhttpclient.so
+#COPY --from=build /usr/local/lib/libhttpclient.so /usr/local/lib/libhttpclient.so
 
 RUN echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
     ldconfig
