@@ -302,7 +302,7 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	make install && \
 	ldconfig
 
-RUN mkdir /tmp/isula /tmp/isulad /tmp/isulad-shim /tmp/isulad-img
+RUN mkdir /tmp/isula /tmp/isulad /tmp/isulad-shim /tmp/isulad-img /etc/containers
 RUN cp `ldd /usr/local/bin/isula|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isula  --parents
 RUN cp `ldd /usr/local/bin/isulad|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isulad  --parents
 RUN cp `ldd /usr/local/bin/isulad-shim|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -e 's/ (0.*)//'|sed -e '/^$/d'` /tmp/isulad-shim  --parents
@@ -323,7 +323,6 @@ RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
     /usr/bin/cp -ru /tmp/isula/usr/local/lib/* /usr/local/lib  &&\
     /usr/bin/cp -ru /tmp/isulad-img/lib64/* /lib64  &&\
     #rm -rf /tmp/isul* &&\
-    install -d -m 755 /etc/containers
 #    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
 #    ldconfig
 
