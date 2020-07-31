@@ -109,7 +109,6 @@ RUN echo "export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH" >> /
     echo "/usr/lib" >> /etc/ld.so.conf && \
     echo "/usr/local/lib" >> /etc/ld.so.conf
 
-	
 # disalbe sslverify
 RUN git config --global http.sslverify false
 
@@ -154,7 +153,7 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	make -j $(nproc) && \
 	make install && \
 	ldconfig
-	
+
 # install grpc
 RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	set -x && \
@@ -287,7 +286,6 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	make -j $(nproc) && \
 	make install && \
 	ldconfig
-	
 
 RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
 	set -x && \
@@ -311,7 +309,7 @@ RUN cp `ldd /usr/bin/isulad-img|grep so|sed -e 's/\t//'|sed -e 's/.*=..//'|sed -
 
 # todo isulad isulad-shim
 
-FROM    centos:7.6.1810
+FROM centos:7.6.1810
 
 # unionfs删除复制了一层之后再删除是无效的
 COPY --from=build /tmp/isula /tmp/isula
@@ -327,7 +325,6 @@ RUN /usr/bin/cp -ru /tmp/isula/lib64/* /lib64  &&\
     /usr/bin/cp -ru /tmp/isulad-shim/lib64/* /lib64  &&\
     /usr/bin/cp -ru /tmp/isulad-shim/usr/local/lib/* /usr/local/lib  &&\
     rm -rf /tmp/isul* &&\
-#    echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
     ldconfig
 
 #isulad-img
@@ -362,4 +359,4 @@ RUN echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
     ldconfig
 
 VOLUME [ "/sys/fs/cgroup" ]
-CMD ["/usr/sbin/init"]
+CMD ["/usr/local/bin/isulad"]
