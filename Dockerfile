@@ -354,7 +354,7 @@ COPY --from=build /usr/local/bin/isula /usr/local/bin/isula
 COPY --from=build /usr/local/bin/isulad-shim /usr/local/bin/isulad-shim
 COPY --from=build /usr/local/bin/isulad /usr/local/bin/isulad
 #COPY --from=build /usr/local/lib/libhttpclient.so /usr/local/lib/libhttpclient.so
-
+COPY --from=build /usr/lib64/libseccomp.so* /usr/lib64/
 RUN echo "/usr/local/lib">/etc/ld.so.conf.d/isula.conf &&\
     ldconfig
 
