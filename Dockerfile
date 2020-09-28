@@ -269,7 +269,7 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
         cd ~ && \
         git clone https://gitee.com/openeuler/iSulad/ &&\
         cd iSulad/CI &&\
-        ./install_depend.sh &&\
+        ./install_depends.sh &&\
         cd .. &&\
         mkdir build &&\
         cd build &&\
