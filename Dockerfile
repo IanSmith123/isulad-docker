@@ -264,5 +264,16 @@ RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
         make install && \
         ldconfig
 
-VOLUME [ "/sys/fs/cgroup" ]
-CMD ["/usr/sbin/init"]
+RUN export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH && \
+        set -x && \
+        cd ~ && \
+        git clone https://gitee.com/openeuler/iSulad/ &&\
+        cd iSulad/CI &&\
+        ./install_depend.sh &&\
+        cd .. &&\
+        mkdir build &&\
+        cd build &&\
+        cmake .. &&\
+        make -j $(nproc) && \
+        make install && \
+        ldconfig
