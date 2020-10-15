@@ -1,6 +1,8 @@
 # isulad
 
+https://gitee.com/openeuler/iSulad/issues/I1LKQA
 
+<!--
 # cmake 
 cd ~ 
 git clone https://gitee.com/src-openeuler/cmake.git 
@@ -46,3 +48,5 @@ cd grpc-1.22.0
 sudo -E make -j $(nproc)
 sudo -E make install
 sudo -E ldconfig
+```
+-->
