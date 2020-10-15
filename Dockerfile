@@ -60,18 +60,12 @@ RUN yum clean all && yum makecache && yum install -y epel-release && yum swap -y
 			unzip \
 			tar \
 			wget \
-			gtest \
-			gtest-devel \
-			gmock \
-			gmock-devel \
 			cppcheck \
 			python3 \
 			python3-pip \
 			python \
 			python-pip \
 			device-mapper-devel \
-			libarchive \
-			libarchive-devel \
 			libtar \
 			libtar-devel \
 			libcurl-devel \
