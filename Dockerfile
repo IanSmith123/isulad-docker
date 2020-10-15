@@ -46,11 +46,11 @@ RUN yum clean all && yum makecache && yum install -y epel-release && yum swap -y
 			docbook2X \
 			libselinux \
 			libselinux-devel \
-			container-selinux \
 			libseccomp \
 			libseccomp-devel \
 			yajl-devel \
 			git \
+			bridge-utils \
 			dnsmasq \
 			libcgroup \
 			rsync \
@@ -60,11 +60,18 @@ RUN yum clean all && yum makecache && yum install -y epel-release && yum swap -y
 			unzip \
 			tar \
 			wget \
+			gtest \
+			gtest-devel \
+			gmock \
+			gmock-devel \
 			cppcheck \
 			python3 \
 			python3-pip \
+			python \
+			python-pip \
 			device-mapper-devel \
-			xz-devel \
+			libarchive \
+			libarchive-devel \
 			libtar \
 			libtar-devel \
 			libcurl-devel \
@@ -84,10 +91,7 @@ RUN yum clean all && yum makecache && yum install -y epel-release && yum swap -y
 			CUnit \
 			CUnit-devel \
 			valgrind \
-			e2fsprogs \
-			lcov \
-			libasan \
-			lvm2
+			e2fsprogs
 
 RUN yum clean all && \
     (cd /lib/systemd/system/sysinit.target.wants/; for i in *; \
