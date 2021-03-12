@@ -16,7 +16,7 @@ docker exec -it test bash
 isula pull docker.io/library/busybox
 isula images
 isula ps
-isula run -it busybox sh``
+isula run -it busybox sh
 ```
 
 # screenshot
