@@ -1,6 +1,30 @@
 # isulad
+isulad unofficial docker image
 
-https://gitee.com/openeuler/iSulad/issues/I1LKQA
+
+# usage:
+1. start isulad daemon
+```
+docker run --rm -it -v /var/lib/isulad:/var/lib/isulad -v /sys/fs/cgroup:/sys/fs/cgroup  --privileged --name test les1ie/isulad
+```
+2. run docker exec to container
+```
+docker exec -it test bash
+```
+3. run isula command in container
+```
+isula pull docker.io/library/busybox
+isula images
+isula ps
+isula run -it busybox sh``
+```
+
+# screenshot
+![image](https://user-images.githubusercontent.com/19611084/110882998-bcd07380-831d-11eb-8597-4cfdbd5c8fa0.png)
+
+![image](https://user-images.githubusercontent.com/19611084/110883006-c0fc9100-831d-11eb-87f1-13c35269af1d.png)
+
+![image](https://user-images.githubusercontent.com/19611084/110883015-c528ae80-831d-11eb-8393-6f2f61056e70.png)
 
 <!--
 # cmake 
@@ -50,3 +74,7 @@ sudo -E make install
 sudo -E ldconfig
 ```
 -->
+
+# refer
+- https://gitee.com/openeuler/iSulad/issues/I1LKQA
+- https://gitee.com/openeuler/iSulad/pulls/769
